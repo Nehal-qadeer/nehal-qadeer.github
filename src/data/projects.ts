@@ -17,6 +17,29 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "eu-multiagent-rag",
+    title: "🛡️ Enterprise EU-Compliant Multi-Agent RAG System",
+    badge: "Autonomous Multi-Agent AI · Sovereign RAG & GDPR Governance",
+    role: "Multi-Agent Architecture & Full-Stack RAG Engineering",
+    metric: "94.5% Faithfulness",
+    metricDesc: "RAGAS & EU AI Act Verified",
+    summary:
+      "A privacy-first, enterprise RAG platform powered by a coordinated 4-agent team (Planner, Hybrid Retriever, Verifier, Synthesizer) with automated PII pseudonymization, GDPR Article 17 cryptographic shredding, and EU AI Act record-keeping.",
+    purpose:
+      "Engineered to solve the critical hallucination, sovereignty, and data privacy risks preventing enterprise AI adoption under European GDPR and EU AI Act regulatory frameworks.",
+    features: [
+      "Multi-Agent Supervisor: Autonomous query decomposition, hybrid retrieval coordination, and NLI factual consistency gates.",
+      "GDPR Article 17 Crypto-Shredding: Instant key revocation via AES-256-GCM, permanently destroying vector searchability without index rebuilds.",
+      "Hybrid Retrieval & Reranker: Dense Semantic Vectors + BM25Okapi combined via Reciprocal Rank Fusion (RRF) and Cross-Encoder attention scoring.",
+      "EU AI Act Compliance: Immutable SHA-256 hash-chained audit ledger (Art. 12) and explicit citation watermarking (Art. 13)."
+    ],
+    installCommand: "git clone https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag.git && docker-compose up -d",
+    techStack: ["FastAPI", "Python 3.10", "Multi-Agent Orchestrator", "RAGAS", "Qdrant", "BM25", "AES-256-GCM", "Docker"],
+    repos: [
+      { label: "GitHub Repository (EU Multi-Agent RAG)", url: "https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag" }
+    ]
+  },
+  {
     slug: "object-detection-game",
     title: "🎮 Object Detection Game for Hearing-Impaired Children",
     badge: "Master's Thesis · AI Assistive Education",

@@ -1,15 +1,15 @@
 export const profile = {
   name: "Nehal Qadeer",
-  role: "AI & Automation Engineer",
-  tagline: "Building high-throughput Python pipelines, optimized Computer Vision models, and autonomous system workflows.",
+  role: "AI & Multi-Agent Systems Engineer",
+  tagline: "Architecting production Multi-Agent RAG platforms, high-throughput Python pipelines, and optimized Computer Vision models.",
   summary:
-    "Applied Computer Science M.Sc. graduate from SRH Heidelberg. I design high-throughput Python scraping engines, optimize Computer Vision inference (-30% latency via OpenVINO), and build bulletproof automations that run reliably in production.",
+    "Applied Computer Science M.Sc. graduate from SRH Heidelberg. I architect enterprise-grade Multi-Agent RAG platforms (GDPR-compliant, RAGAS-verified), design high-throughput Python scraping engines, and optimize Computer Vision inference (-30% latency via OpenVINO).",
   hiringRoles: [
-    "Junior AI & Automation Engineer",
-    "Junior Python Developer",
-    "Computer Vision Specialist",
-    "QA & Systems Integrator",
-    "Junior Backend & Data Engineer"
+    "AI & Multi-Agent Systems Engineer",
+    "Python & RAG Backend Developer",
+    "Computer Vision & ML Specialist",
+    "Junior Backend & Data Engineer",
+    "QA & Autonomous Systems Integrator"
   ],
   availability: "Open for Junior & Full-Time Roles across Germany & Remote EU",
   location: "Mannheim, Germany",

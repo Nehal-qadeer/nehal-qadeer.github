@@ -5,9 +5,22 @@ export interface StackGroup {
 
 export const stackGroups: StackGroup[] = [
   {
+    label: "AI, RAG & Multi-Agent Systems",
+    items: [
+      "Multi-Agent RAG Architecture",
+      "LangGraph / Agent Workflows",
+      "Hybrid Search (Dense Vectors + BM25Okapi)",
+      "Reciprocal Rank Fusion (RRF)",
+      "Cross-Encoder Rerankers",
+      "RAGAS & DeepEval Benchmarks",
+      "Presidio PII Pseudonymization",
+      "AES-256 Cryptographic Shredding"
+    ]
+  },
+  {
     label: "Languages & Core",
     items: [
-      "Python 3",
+      "Python 3 (FastAPI, Uvicorn, Pydantic)",
       "C++",
       "Object-Oriented Programming (OOP)",
       "Data Structures & Algorithms",
@@ -15,12 +28,12 @@ export const stackGroups: StackGroup[] = [
     ]
   },
   {
-    label: "AI/ML & Computer Vision",
+    label: "Computer Vision & Deep Learning",
     items: [
       "PyTorch",
+      "YOLOv8",
       "OpenCV",
       "Intel OpenVINO (Inference & Model Optimization)",
-      "Deep Learning Model Training & Evaluation",
       "Neural Network Verification Pipelines"
     ]
   },

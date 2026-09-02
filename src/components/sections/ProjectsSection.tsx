@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink, Code2, Sparkles, Gamepad2, Eye, Terminal, CheckCircle2, RefreshCw } from "lucide-react";
+import { ExternalLink, Code2, Sparkles, Gamepad2, Eye, Terminal, CheckCircle2, RefreshCw, ShieldCheck, Bot, Lock } from "lucide-react";
 
 export function ProjectsSection() {
   const [isSimulating, setIsSimulating] = useState(false);
@@ -195,16 +195,49 @@ export function ProjectsSection() {
         </div>
 
         {/* Additional Project Cards Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Project 2: Scraping & Ingestion */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Project 1: Enterprise EU-Compliant Multi-Agent RAG */}
           <article className="rounded-xl border border-line bg-surface p-7 shadow-blueprint relative overflow-hidden transition-all duration-300 hover:border-signal hover:-translate-y-1 hover:shadow-blueprint-lg flex flex-col justify-between space-y-5">
             <div className="space-y-4">
               <div className="flex justify-between items-start">
-                <span className="font-mono text-xs font-semibold text-signal uppercase tracking-wider">
-                  Production Data Pipeline
+                <span className="font-mono text-xs font-semibold text-teal uppercase tracking-wider flex items-center gap-1.5">
+                  <ShieldCheck size={14} />
+                  Sovereign Multi-Agent AI
                 </span>
-                <span className="font-mono text-xs text-ink-soft">2025–26</span>
+                <span className="font-mono text-xs font-bold text-teal bg-teal/10 px-2 py-0.5 rounded border border-teal/30">94.5% RAGAS</span>
               </div>
+
+              <div>
+                <h3 className="font-display font-bold text-xl text-ink">
+                  Enterprise EU-Compliant Multi-Agent RAG System
+                </h3>
+                <p className="mt-2.5 font-body text-sm text-ink-soft leading-relaxed">
+                  Autonomous 4-agent RAG engine (Planner, Hybrid Retriever, Verifier, Synthesizer) featuring Presidio PII pseudonymization, AES-256-GCM GDPR Article 17 cryptographic shredding, and EU AI Act Article 12 immutable audit logs.
+                </p>
+              </div>
+
+              <div className="pt-1">
+                <a
+                  href="https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag"
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-signal hover:underline font-semibold"
+                >
+                  <Code2 size={13} />
+                  EU Multi-Agent RAG Repo
+                  <ExternalLink size={11} />
+                </a>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-1.5 pt-3 border-t border-line">
+              {["FastAPI", "Multi-Agent", "RAGAS", "BM25+Vector", "Qdrant", "Crypto-Shred", "Docker"].map((tag) => (
+                <span key={tag} className="rounded bg-signal-dim px-2 py-0.5 font-mono text-[10.5px] text-signal">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </article>
 
               <div>
                 <h3 className="font-display font-bold text-xl text-ink">
