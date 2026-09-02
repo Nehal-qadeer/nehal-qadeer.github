@@ -239,6 +239,16 @@ export function ProjectsSection() {
             </div>
           </article>
 
+          {/* Project 2: Scraping & Ingestion */}
+          <article className="rounded-xl border border-line bg-surface p-7 shadow-blueprint relative overflow-hidden transition-all duration-300 hover:border-signal hover:-translate-y-1 hover:shadow-blueprint-lg flex flex-col justify-between space-y-5">
+            <div className="space-y-4">
+              <div className="flex justify-between items-start">
+                <span className="font-mono text-xs font-semibold text-signal uppercase tracking-wider">
+                  Production Data Pipeline
+                </span>
+                <span className="font-mono text-xs text-ink-soft">2025–26</span>
+              </div>
+
               <div>
                 <h3 className="font-display font-bold text-xl text-ink">
                   Multi-Platform Scraping & Ingestion Engine
