@@ -22,21 +22,21 @@ export const projects: Project[] = [
     badge: "Autonomous Multi-Agent AI · Sovereign RAG & GDPR Governance",
     role: "Multi-Agent Architecture & Full-Stack RAG Engineering",
     metric: "94.5% Faithfulness",
-    metricDesc: "RAGAS & EU AI Act Verified",
+    metricDesc: "RAGAS Triad Benchmarked",
     summary:
-      "A privacy-first, enterprise RAG platform powered by a coordinated 4-agent team (Planner, Hybrid Retriever, Verifier, Synthesizer) with automated PII pseudonymization, GDPR Article 17 cryptographic shredding, and EU AI Act record-keeping.",
+      "A privacy-first, enterprise RAG platform powered by a coordinated 4-agent team (Planner, Hybrid Retriever, Verifier, Synthesizer) with Microsoft Presidio PII pseudonymization, GDPR Article 17 cryptographic shredding, and EU AI Act transparency scaffolding.",
     purpose:
-      "Engineered to solve the critical hallucination, sovereignty, and data privacy risks preventing enterprise AI adoption under European GDPR and EU AI Act regulatory frameworks.",
+      "Engineered to solve hallucination, sovereignty, and data privacy challenges in enterprise AI adoption through Technical & Organizational Measures (TOMs) by Design under European GDPR and EU AI Act frameworks.",
     features: [
-      "Multi-Agent Supervisor: Autonomous query decomposition, hybrid retrieval coordination, and NLI factual consistency gates.",
+      "Multi-Agent Supervisor: Autonomous query decomposition, hybrid retrieval coordination, and DeBERTa NLI factual consistency gates.",
       "GDPR Article 17 Crypto-Shredding: Instant key revocation via AES-256-GCM, permanently destroying vector searchability without index rebuilds.",
-      "Hybrid Retrieval & Reranker: Dense Semantic Vectors + BM25Okapi combined via Reciprocal Rank Fusion (RRF) and Cross-Encoder attention scoring.",
-      "EU AI Act Compliance: Immutable SHA-256 hash-chained audit ledger (Art. 12) and explicit citation watermarking (Art. 13)."
+      "Hybrid Retrieval & Reranker: SentenceTransformers dense vectors + BM25Okapi combined via Reciprocal Rank Fusion (RRF) and Cross-Encoder attention scoring.",
+      "EU AI Act Transparency: Immutable SHA-256 hash-chained audit ledger (Art. 12) and explicit citation watermarking (Art. 50)."
     ],
-    installCommand: "git clone https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag.git && docker-compose up -d",
-    techStack: ["FastAPI", "Python 3.10", "Multi-Agent Orchestrator", "RAGAS", "Qdrant", "BM25", "AES-256-GCM", "Docker"],
+    installCommand: "git clone https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag.git && python -m venv .venv",
+    techStack: ["FastAPI", "Python 3.10", "Microsoft Presidio", "SentenceTransformers", "DeBERTa NLI", "BM25Okapi", "AES-256-GCM", "Docker"],
     repos: [
-      { label: "GitHub Repository (EU Multi-Agent RAG)", url: "https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag" }
+      { label: "GitHub Repository (EU Sovereign RAG)", url: "https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag" }
     ]
   },
   {
