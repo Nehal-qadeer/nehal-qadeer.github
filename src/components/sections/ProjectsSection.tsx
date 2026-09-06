@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink, Code2, Sparkles, Gamepad2, Eye, CheckCircle2, RefreshCw, ShieldCheck, Bot, Lock, Server, Cpu, Database, AlertCircle, FileText } from "lucide-react";
+import Image from "next/image";
+import { ExternalLink, Code2, Sparkles, Gamepad2, Eye, CheckCircle2, RefreshCw, ShieldCheck, Bot, Lock, ImageIcon, FileText, Monitor, Cpu, Database } from "lucide-react";
 
 export function ProjectsSection() {
   // --- Master's Thesis CV Simulator State ---
@@ -31,6 +32,7 @@ export function ProjectsSection() {
   };
 
   // --- Multi-Agent RAG Simulator State ---
+  const [ragViewMode, setRagViewMode] = useState<"simulator" | "screenshot">("simulator");
   const [isRagRunning, setIsRagRunning] = useState(false);
   const [isCryptoShredded, setIsCryptoShredded] = useState(false);
   const [activeRagPreset, setActiveRagPreset] = useState<number>(1);
@@ -203,168 +205,223 @@ export function ProjectsSection() {
               </div>
             </div>
 
-            {/* Right: Live Interactive Multi-Agent Working Pipeline Simulator (7 cols) */}
+            {/* Right: Live Interactive Multi-Agent Working Pipeline Simulator / Screenshot View (7 cols) */}
             <div className="lg:col-span-7 rounded-xl border border-line bg-ink p-5 space-y-4 shadow-lg select-none text-white font-sans">
               <div className="flex items-center justify-between border-b border-white/15 pb-2.5 font-mono text-xs">
-                <span className="flex items-center gap-1.5 text-teal font-semibold">
-                  <Bot size={14} />
-                  Multi-Agent Live Pipeline Simulator
-                </span>
-                <span className="text-[11px] text-white/70">FastAPI + Qdrant + Sovereign LLM</span>
-              </div>
-
-              {/* Query Preset Selectors */}
-              <div className="space-y-1.5">
-                <div className="font-mono text-[10.5px] text-white/60 uppercase tracking-wider">Test Sample Enterprise Queries:</div>
-                <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                {/* View Switcher Tabs */}
+                <div className="flex items-center gap-1 bg-white/10 p-1 rounded-lg">
                   <button
-                    onClick={() => handleSelectRagPreset(1)}
-                    className={`px-2.5 py-1 rounded border transition-all ${
-                      activeRagPreset === 1 && !isCryptoShredded
-                        ? "bg-teal text-white border-teal font-bold shadow-sm"
-                        : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                    onClick={() => setRagViewMode("simulator")}
+                    className={`px-3 py-1 rounded-md text-[11px] font-bold transition-all flex items-center gap-1.5 ${
+                      ragViewMode === "simulator"
+                        ? "bg-teal text-white shadow-sm"
+                        : "text-white/70 hover:text-white"
                     }`}
                   >
-                    72h Breach Notice
+                    <Bot size={13} />
+                    Live Working Console
                   </button>
                   <button
-                    onClick={() => handleSelectRagPreset(2)}
-                    className={`px-2.5 py-1 rounded border transition-all ${
-                      activeRagPreset === 2 && !isCryptoShredded
-                        ? "bg-teal text-white border-teal font-bold shadow-sm"
-                        : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                    onClick={() => setRagViewMode("screenshot")}
+                    className={`px-3 py-1 rounded-md text-[11px] font-bold transition-all flex items-center gap-1.5 ${
+                      ragViewMode === "screenshot"
+                        ? "bg-signal text-white shadow-sm"
+                        : "text-white/70 hover:text-white"
                     }`}
                   >
-                    GDPR Art. 17 Erasure
-                  </button>
-                  <button
-                    onClick={() => handleSelectRagPreset(3)}
-                    className={`px-2.5 py-1 rounded border transition-all ${
-                      activeRagPreset === 3 && !isCryptoShredded
-                        ? "bg-teal text-white border-teal font-bold shadow-sm"
-                        : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
-                    }`}
-                  >
-                    DPO Contact &amp; Tax PII
-                  </button>
-                  <button
-                    onClick={() => handleSelectRagPreset(4)}
-                    className={`px-2.5 py-1 rounded border transition-all ${
-                      activeRagPreset === 4 && !isCryptoShredded
-                        ? "bg-amber text-ink border-amber font-bold shadow-sm"
-                        : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
-                    }`}
-                  >
-                    Hallucination Test
-                  </button>
-                  <button
-                    onClick={toggleCryptoShred}
-                    className={`px-2.5 py-1 rounded border font-bold transition-all flex items-center gap-1 ${
-                      isCryptoShredded
-                        ? "bg-red-600 text-white border-red-500 animate-pulse"
-                        : "bg-red-950/60 text-red-300 border-red-800/60 hover:bg-red-900/60"
-                    }`}
-                  >
-                    <Lock size={10} />
-                    {isCryptoShredded ? "Key Revoked (Click to Restore)" : "💥 Test GDPR Art. 17 Shredding"}
+                    <ImageIcon size={13} />
+                    System Screenshot
                   </button>
                 </div>
+                <span className="text-[11px] text-white/70 hidden sm:inline font-mono">FastAPI + Qdrant</span>
               </div>
 
-              {/* 4-Agent Live Coordination Bar */}
-              <div className="grid grid-cols-4 gap-1.5 font-mono text-[10px] text-center pt-1">
-                {[
-                  { id: 1, label: "1. PLANNER", sub: "Query Decompose" },
-                  { id: 2, label: "2. RETRIEVER", sub: "Hybrid RRF + Cross" },
-                  { id: 3, label: "3. VERIFIER", sub: "NLI Fact-Check" },
-                  { id: 4, label: "4. SYNTHESIS", sub: "EU Citations" }
-                ].map((st) => {
-                  const isActive = currentAgentStep >= st.id;
-                  const isCurrent = currentAgentStep === st.id;
-                  return (
-                    <div
-                      key={st.id}
-                      className={`p-1.5 rounded border transition-all ${
-                        isCurrent && isRagRunning
-                          ? "bg-teal/20 border-teal text-teal animate-pulse font-bold"
-                          : isActive
-                          ? "bg-white/10 border-white/20 text-white"
-                          : "bg-white/5 border-white/5 text-white/40"
-                      }`}
-                    >
-                      <div className="font-bold">{st.label}</div>
-                      <div className="text-[9px] text-white/60 truncate">{st.sub}</div>
+              {/* View 1: Interactive Working Pipeline Simulator */}
+              {ragViewMode === "simulator" && (
+                <div className="space-y-3 animate-fadeIn">
+                  {/* Query Preset Selectors */}
+                  <div className="space-y-1.5">
+                    <div className="font-mono text-[10.5px] text-white/60 uppercase tracking-wider">Test Sample Enterprise Queries:</div>
+                    <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                      <button
+                        onClick={() => handleSelectRagPreset(1)}
+                        className={`px-2.5 py-1 rounded border transition-all ${
+                          activeRagPreset === 1 && !isCryptoShredded
+                            ? "bg-teal text-white border-teal font-bold shadow-sm"
+                            : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                        }`}
+                      >
+                        72h Breach Notice
+                      </button>
+                      <button
+                        onClick={() => handleSelectRagPreset(2)}
+                        className={`px-2.5 py-1 rounded border transition-all ${
+                          activeRagPreset === 2 && !isCryptoShredded
+                            ? "bg-teal text-white border-teal font-bold shadow-sm"
+                            : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                        }`}
+                      >
+                        GDPR Art. 17 Erasure
+                      </button>
+                      <button
+                        onClick={() => handleSelectRagPreset(3)}
+                        className={`px-2.5 py-1 rounded border transition-all ${
+                          activeRagPreset === 3 && !isCryptoShredded
+                            ? "bg-teal text-white border-teal font-bold shadow-sm"
+                            : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                        }`}
+                      >
+                        DPO Contact &amp; Tax PII
+                      </button>
+                      <button
+                        onClick={() => handleSelectRagPreset(4)}
+                        className={`px-2.5 py-1 rounded border transition-all ${
+                          activeRagPreset === 4 && !isCryptoShredded
+                            ? "bg-amber text-ink border-amber font-bold shadow-sm"
+                            : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                        }`}
+                      >
+                        Hallucination Test
+                      </button>
+                      <button
+                        onClick={toggleCryptoShred}
+                        className={`px-2.5 py-1 rounded border font-bold transition-all flex items-center gap-1 ${
+                          isCryptoShredded
+                            ? "bg-red-600 text-white border-red-500 animate-pulse"
+                            : "bg-red-950/60 text-red-300 border-red-800/60 hover:bg-red-900/60"
+                        }`}
+                      >
+                        <Lock size={10} />
+                        {isCryptoShredded ? "Key Revoked (Click to Restore)" : "💥 Test GDPR Art. 17 Shredding"}
+                      </button>
                     </div>
-                  );
-                })}
-              </div>
-
-              {/* Live Terminal Output Console */}
-              <div className="aspect-[16/9] sm:aspect-[16/8] rounded-lg bg-[#0A101D] border border-white/15 p-4 relative flex flex-col justify-between overflow-hidden">
-                {/* Status bar */}
-                <div className="flex items-center justify-between font-mono text-[11px] border-b border-white/10 pb-2">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`w-2 h-2 rounded-full ${
-                        isCryptoShredded
-                          ? "bg-red-500 animate-ping"
-                          : isRagRunning
-                          ? "bg-amber animate-spin"
-                          : "bg-teal animate-pulse"
-                      }`}
-                    />
-                    <span className="text-white/80 font-semibold">
-                      {isCryptoShredded
-                        ? "BLOCKED BY CRYPTO-SHRED (GDPR Art. 17)"
-                        : isRagRunning
-                        ? "COORDINATING AGENTS..."
-                        : activeRagPreset === 4
-                        ? "SAFE FALLBACK (INSUFFICIENT CONTEXT)"
-                        : "VERIFIED GROUNDED OUTPUT (SUCCESS)"}
-                    </span>
                   </div>
-                  <span className="text-teal font-bold">{activePreset.latency}</span>
-                </div>
 
-                {/* Main answer readout */}
-                <div className="py-2 space-y-2 overflow-y-auto max-h-32 text-xs font-body text-white/90 leading-relaxed">
-                  {isCryptoShredded ? (
-                    <div className="text-red-300 font-mono text-[11.5px] p-2 bg-red-950/40 rounded border border-red-900/60">
-                      ⚠️ <strong>GDPR Right to Erasure Enforcement:</strong> Target AES-256 key revoked in KeyVault. All document embeddings and stored vectors are cryptographically tombstoned. Zero unencrypted representations exist.
-                    </div>
-                  ) : (
-                    <>
-                      <p>{activePreset.answer}</p>
-                      <div className="font-mono text-[10.5px] text-teal flex items-center gap-1.5 pt-1">
-                        <span>Attributed Citation:</span>
-                        <span className="bg-teal/10 px-1.5 py-0.5 rounded border border-teal/30 text-teal-200">
-                          {activePreset.citation}
+                  {/* 4-Agent Live Coordination Bar */}
+                  <div className="grid grid-cols-4 gap-1.5 font-mono text-[10px] text-center pt-1">
+                    {[
+                      { id: 1, label: "1. PLANNER", sub: "Query Decompose" },
+                      { id: 2, label: "2. RETRIEVER", sub: "Hybrid RRF + Cross" },
+                      { id: 3, label: "3. VERIFIER", sub: "NLI Fact-Check" },
+                      { id: 4, label: "4. SYNTHESIS", sub: "EU Citations" }
+                    ].map((st) => {
+                      const isActive = currentAgentStep >= st.id;
+                      const isCurrent = currentAgentStep === st.id;
+                      return (
+                        <div
+                          key={st.id}
+                          className={`p-1.5 rounded border transition-all ${
+                            isCurrent && isRagRunning
+                              ? "bg-teal/20 border-teal text-teal animate-pulse font-bold"
+                              : isActive
+                              ? "bg-white/10 border-white/20 text-white"
+                              : "bg-white/5 border-white/5 text-white/40"
+                          }`}
+                        >
+                          <div className="font-bold">{st.label}</div>
+                          <div className="text-[9px] text-white/60 truncate">{st.sub}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Live Terminal Output Console */}
+                  <div className="aspect-[16/9] sm:aspect-[16/8] rounded-lg bg-[#0A101D] border border-white/15 p-4 relative flex flex-col justify-between overflow-hidden">
+                    {/* Status bar */}
+                    <div className="flex items-center justify-between font-mono text-[11px] border-b border-white/10 pb-2">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`w-2 h-2 rounded-full ${
+                            isCryptoShredded
+                              ? "bg-red-500 animate-ping"
+                              : isRagRunning
+                              ? "bg-amber animate-spin"
+                              : "bg-teal animate-pulse"
+                          }`}
+                        />
+                        <span className="text-white/80 font-semibold">
+                          {isCryptoShredded
+                            ? "BLOCKED BY CRYPTO-SHRED (GDPR Art. 17)"
+                            : isRagRunning
+                            ? "COORDINATING AGENTS..."
+                            : activeRagPreset === 4
+                            ? "SAFE FALLBACK (INSUFFICIENT CONTEXT)"
+                            : "VERIFIED GROUNDED OUTPUT (SUCCESS)"}
                         </span>
                       </div>
-                    </>
-                  )}
-                </div>
+                      <span className="text-teal font-bold">{activePreset.latency}</span>
+                    </div>
 
-                {/* Live Metadata Badges */}
-                <div className="border-t border-white/10 pt-2 flex flex-wrap items-center justify-between font-mono text-[10px] text-white/60 gap-2">
-                  <span>PII: <strong className="text-teal">{activePreset.piiStatus}</strong></span>
-                  <span>Faithfulness: <strong className="text-teal">{activePreset.faithfulness}</strong></span>
-                  <span>Ledger: <strong className="text-white/80">SHA-256:{activePreset.hash}...</strong></span>
-                </div>
-              </div>
+                    {/* Main answer readout */}
+                    <div className="py-2 space-y-2 overflow-y-auto max-h-32 text-xs font-body text-white/90 leading-relaxed">
+                      {isCryptoShredded ? (
+                        <div className="text-red-300 font-mono text-[11.5px] p-2 bg-red-950/40 rounded border border-red-900/60">
+                          ⚠️ <strong>GDPR Right to Erasure Enforcement:</strong> Target AES-256 key revoked in KeyVault. All document embeddings and stored vectors are cryptographically tombstoned. Zero unencrypted representations exist.
+                        </div>
+                      ) : (
+                        <>
+                          <p>{activePreset.answer}</p>
+                          <div className="font-mono text-[10.5px] text-teal flex items-center gap-1.5 pt-1">
+                            <span>Attributed Citation:</span>
+                            <span className="bg-teal/10 px-1.5 py-0.5 rounded border border-teal/30 text-teal-200">
+                              {activePreset.citation}
+                            </span>
+                          </div>
+                        </>
+                      )}
+                    </div>
 
-              {/* Bottom Simulator Controls */}
-              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 font-mono text-xs">
-                <button
-                  onClick={() => handleSelectRagPreset(activeRagPreset)}
-                  disabled={isRagRunning}
-                  className="inline-flex items-center gap-1.5 rounded bg-teal px-3.5 py-1.5 font-bold text-white hover:bg-teal/90 transition-all active:scale-95 disabled:opacity-50"
-                >
-                  <RefreshCw size={12} className={isRagRunning ? "animate-spin" : ""} />
-                  {isRagRunning ? "Processing Query..." : "Re-Run Multi-Agent Pipeline"}
-                </button>
-                <span className="text-[10px] text-white/60">Sovereign Boundary · Zero Data Leakage</span>
-              </div>
+                    {/* Live Metadata Badges */}
+                    <div className="border-t border-white/10 pt-2 flex flex-wrap items-center justify-between font-mono text-[10px] text-white/60 gap-2">
+                      <span>PII: <strong className="text-teal">{activePreset.piiStatus}</strong></span>
+                      <span>Faithfulness: <strong className="text-teal">{activePreset.faithfulness}</strong></span>
+                      <span>Ledger: <strong className="text-white/80">SHA-256:{activePreset.hash}...</strong></span>
+                    </div>
+                  </div>
+
+                  {/* Bottom Simulator Controls */}
+                  <div className="flex flex-wrap items-center justify-between gap-2 pt-1 font-mono text-xs">
+                    <button
+                      onClick={() => handleSelectRagPreset(activeRagPreset)}
+                      disabled={isRagRunning}
+                      className="inline-flex items-center gap-1.5 rounded bg-teal px-3.5 py-1.5 font-bold text-white hover:bg-teal/90 transition-all active:scale-95 disabled:opacity-50"
+                    >
+                      <RefreshCw size={12} className={isRagRunning ? "animate-spin" : ""} />
+                      {isRagRunning ? "Processing Query..." : "Re-Run Multi-Agent Pipeline"}
+                    </button>
+                    <span className="text-[10px] text-white/60">Sovereign Boundary · Zero Data Leakage</span>
+                  </div>
+                </div>
+              )}
+
+              {/* View 2: High-Resolution Live System Dashboard Screenshot */}
+              {ragViewMode === "screenshot" && (
+                <div className="space-y-3 animate-fadeIn">
+                  <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden border border-white/20 bg-black group">
+                    <Image
+                      src="/images/multiagent-rag-dashboard.jpg"
+                      alt="EU-Compliant Multi-Agent RAG Operations Dashboard"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3">
+                      <div className="font-mono text-[11px] text-white/90">
+                        <span className="text-teal font-bold">Live UI:</span> Multi-Agent Orchestrator, RAGAS Gauges (94.5%), PII Sanitizer &amp; Crypto-Shredder
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between font-mono text-[11px] text-white/70 pt-1">
+                    <span>Captured from Sovereign EU Runtime</span>
+                    <button
+                      onClick={() => setRagViewMode("simulator")}
+                      className="text-teal font-bold hover:underline flex items-center gap-1"
+                    >
+                      <span>⚡ Switch to Interactive Simulator</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
