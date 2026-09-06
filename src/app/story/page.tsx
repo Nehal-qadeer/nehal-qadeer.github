@@ -50,6 +50,16 @@ export default function StoryPage() {
       summary:
         "Architecting high-throughput cloud scraping engines (2,000–4,000 records/run), automated Make.com & PostgreSQL storage pipelines, and multi-app Zapier workflow automations.",
       tags: ["Apify Actors", "Selenium", "PostgreSQL", "Zapier", "REST APIs"]
+    },
+    {
+      index: "05",
+      title: "Sovereign Multi-Agent AI & Enterprise RAG",
+      institution: "Autonomous AI & Governance Architecture",
+      period: "2026",
+      location: "Mannheim, Germany",
+      summary:
+        "Architecting enterprise-grade, privacy-first Multi-Agent RAG platforms (FastAPI, Qdrant, Presidio, AES-256 Crypto-Shredding) verified by automated RAGAS benchmarks (94.5% Faithfulness) and EU AI Act Article 12 compliance ledgers.",
+      tags: ["Multi-Agent RAG", "GDPR Art. 17", "EU AI Act", "RAGAS 94.5%", "FastAPI", "AES-256-GCM"]
     }
   ];
 

@@ -18,6 +18,7 @@ export function InteractiveSkillExplorer() {
 
   const categories = [
     "All",
+    "Autonomous AI & RAG",
     "AI & Computer Vision",
     "Python & Automation",
     "Databases & Cloud",
@@ -25,6 +26,30 @@ export function InteractiveSkillExplorer() {
   ];
 
   const skills: SkillItem[] = [
+    {
+      name: "Multi-Agent RAG Systems",
+      category: "Autonomous AI & RAG",
+      badge: "Supervisor & Agentic Workflows",
+      projectProof: "🛡️ Enterprise EU-Compliant Multi-Agent RAG",
+      projectLink: "#projects",
+      impact: "Orchestrated 4-agent team (Planner, Hybrid Retriever, Verifier, Synthesizer) with NLI fact-checking."
+    },
+    {
+      name: "GDPR Cryptographic Shredding",
+      category: "Autonomous AI & RAG",
+      badge: "Data Privacy & Governance",
+      projectProof: "🛡️ Enterprise EU-Compliant Multi-Agent RAG",
+      projectLink: "#projects",
+      impact: "Engineered AES-256-GCM instant key revocation for GDPR Article 17 Right to Erasure without re-indexing."
+    },
+    {
+      name: "RAGAS Evaluation Framework",
+      category: "QA & Agile",
+      badge: "EU AI Act Verification",
+      projectProof: "🛡️ Enterprise EU-Compliant Multi-Agent RAG",
+      projectLink: "#projects",
+      impact: "Automated benchmark suite measuring Faithfulness (94.5%), Relevance, and Recall under EU AI Act Art. 15."
+    },
     {
       name: "Ultralytics YOLOv8",
       category: "AI & Computer Vision",
