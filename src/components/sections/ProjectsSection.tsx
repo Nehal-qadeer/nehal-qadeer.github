@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink, Code2, Sparkles, Gamepad2, Eye, Terminal, CheckCircle2, RefreshCw, ShieldCheck, Bot, Lock } from "lucide-react";
+import { ExternalLink, Code2, Sparkles, Gamepad2, Eye, CheckCircle2, RefreshCw, ShieldCheck, Bot, Lock, Server, Cpu, Database, AlertCircle, FileText } from "lucide-react";
 
 export function ProjectsSection() {
-  const [isSimulating, setIsSimulating] = useState(false);
+  // --- Master's Thesis CV Simulator State ---
+  const [isCvSimulating, setIsCvSimulating] = useState(false);
   const [detectedObj, setDetectedObj] = useState<{ name: string; conf: number; fps: number; latency: string }>({
     name: "LAPTOP",
     conf: 99.2,
@@ -20,14 +21,92 @@ export function ProjectsSection() {
     { name: "WALL CLOCK", conf: 99.0, fps: 29.5, latency: "10.5ms" }
   ];
 
-  const handleSimulate = () => {
-    setIsSimulating(true);
+  const handleSimulateCv = () => {
+    setIsCvSimulating(true);
     setTimeout(() => {
       const next = sampleObjects[Math.floor(Math.random() * sampleObjects.length)]!;
       setDetectedObj(next);
-      setIsSimulating(false);
+      setIsCvSimulating(false);
     }, 500);
   };
+
+  // --- Multi-Agent RAG Simulator State ---
+  const [isRagRunning, setIsRagRunning] = useState(false);
+  const [isCryptoShredded, setIsCryptoShredded] = useState(false);
+  const [activeRagPreset, setActiveRagPreset] = useState<number>(1);
+  const [currentAgentStep, setCurrentAgentStep] = useState<number>(4);
+
+  const ragPresets = {
+    1: {
+      query: "Under GDPR Article 33, what is the mandatory timeline for breach notifications?",
+      answer: "Under GDPR Article 33, any security breach involving personal data must be formally reported to the European supervisory authority within 72 hours of detection. All containment logs are immutably preserved in the audit ledger.",
+      citation: "Corporate Privacy Manual: Section 3",
+      faithfulness: "100.0%",
+      relevance: "96.4%",
+      latency: "18.2ms",
+      piiStatus: "0 PII exposed (Clean)",
+      tokens: 192,
+      hash: "b46551f7d789bb66"
+    },
+    2: {
+      query: "What is the procedure when a data subject requests GDPR Article 17 Right to Erasure?",
+      answer: "Upon receipt of an erasure request, the cryptographic key vault immediately shreds the dedicated AES-256 key. All vector embeddings and stored records are cryptographically tombstoned and rendered permanently unrecoverable without rebuilding index partitions.",
+      citation: "Corporate Privacy Manual: Section 2",
+      faithfulness: "100.0%",
+      relevance: "98.1%",
+      latency: "16.4ms",
+      piiStatus: "0 PII exposed (Encrypted Key Destroyed)",
+      tokens: 210,
+      hash: "41e946c098804b42"
+    },
+    3: {
+      query: "Who is the designated Data Protection Officer and what are their official contact & tax details?",
+      answer: "The designated Data Protection Officer is <PERSON_01> (email: <EMAIL_ADDRESS_01>, phone: <PHONE_NUMBER_01>). Official compliance correspondence references Tax ID: <EU_TAX_ID_01> and IBAN: <IBAN_CODE_01>.",
+      citation: "Corporate Privacy Manual: Section 1",
+      faithfulness: "100.0%",
+      relevance: "94.8%",
+      latency: "17.8ms",
+      piiStatus: "5 Entities Pseudonymized (<PERSON>, <EMAIL>, <PHONE>, <TAX_ID>, <IBAN>)",
+      tokens: 184,
+      hash: "e3d75d49e4697d98"
+    },
+    4: {
+      query: "What is the proprietary formula for hyper-velocity quantum rocket fuel?",
+      answer: "Insufficient context in verified enterprise documents to answer this query truthfully. No matching policies or records meet the required confidence threshold. Groundedness gate triggered safe fallback.",
+      citation: "0 Citations (Hallucination Blocked)",
+      faithfulness: "100.0%",
+      relevance: "0.0%",
+      latency: "4.2ms",
+      piiStatus: "0 PII exposed",
+      tokens: 45,
+      hash: "7f8832a188bc9910"
+    }
+  };
+
+  const handleSelectRagPreset = (id: number) => {
+    setActiveRagPreset(id);
+    setIsRagRunning(true);
+    setCurrentAgentStep(1);
+
+    setTimeout(() => setCurrentAgentStep(2), 250);
+    setTimeout(() => setCurrentAgentStep(3), 500);
+    setTimeout(() => {
+      setCurrentAgentStep(4);
+      setIsRagRunning(false);
+    }, 750);
+  };
+
+  const toggleCryptoShred = () => {
+    setIsCryptoShredded(!isCryptoShredded);
+    setIsRagRunning(true);
+    setCurrentAgentStep(1);
+    setTimeout(() => {
+      setCurrentAgentStep(4);
+      setIsRagRunning(false);
+    }, 400);
+  };
+
+  const activePreset = ragPresets[activeRagPreset as keyof typeof ragPresets];
 
   return (
     <section id="projects" className="py-20 border-t border-line relative overflow-hidden">
@@ -35,19 +114,314 @@ export function ProjectsSection() {
       <span className="absolute top-20 left-[4%] w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_0_3px_rgba(47,158,143,0.15)] animate-pulse" />
       <span className="absolute bottom-16 right-[7%] w-1.5 h-1.5 rounded-full bg-signal shadow-[0_0_0_3px_rgba(43,108,176,0.15)] animate-pulse" />
 
-      <div className="max-w-[1040px] mx-auto px-6 md:px-10 space-y-12">
+      <div className="max-w-[1040px] mx-auto px-6 md:px-10 space-y-14">
         {/* Section Header */}
         <div>
           <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-signal font-semibold mb-3">
             <span className="w-4 h-px bg-signal" />
-            03 — Projects
+            03 — Featured Projects
           </div>
           <h2 className="font-display font-semibold text-2xl sm:text-3xl text-ink tracking-tight">
-            Things I&apos;ve shipped
+            Shipped Systems &amp; Autonomous Architectures
           </h2>
         </div>
 
-        {/* FEATURED: Master's Thesis Project Spotlight Card */}
+        {/* ========================================================================= */}
+        {/* SPOTLIGHT 1: Enterprise EU-Compliant Multi-Agent RAG System */}
+        {/* ========================================================================= */}
+        <div className="rounded-xl border border-teal/40 bg-surface p-7 sm:p-10 shadow-blueprint-lg relative overflow-hidden space-y-8">
+          {/* Top Line Gradient */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal via-signal to-amber" />
+
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-5">
+            <div className="space-y-1">
+              <span className="inline-flex items-center gap-1.5 rounded bg-teal/10 border border-teal/30 px-2.5 py-1 font-mono text-xs font-semibold text-teal">
+                <ShieldCheck size={14} />
+                FLAGSHIP PROJECT · SOVEREIGN MULTI-AGENT AI &amp; GDPR GOVERNANCE
+              </span>
+              <h3 className="font-display font-bold text-2xl sm:text-3xl text-ink mt-2 flex items-center gap-2">
+                <span>🛡️</span> Enterprise EU-Compliant Multi-Agent RAG System
+              </h3>
+              <p className="font-body text-sm sm:text-base text-signal font-medium">
+                Autonomous 4-agent RAG engine with Presidio PII pseudonymization, AES-256-GCM cryptographic shredding, and EU AI Act record-keeping.
+              </p>
+            </div>
+
+            <div className="font-mono text-xs text-right">
+              <span className="inline-block rounded border border-teal/40 bg-teal/10 px-3 py-1.5 text-teal font-bold text-sm tabular">
+                94.5% RAGAS Faithfulness
+              </span>
+              <div className="text-[11px] text-ink-soft mt-0.5">EU AI Act High-Risk Ready</div>
+            </div>
+          </div>
+
+          {/* Project Purpose Statement */}
+          <div className="rounded-lg border border-line bg-bg p-5 space-y-2">
+            <div className="font-mono text-xs font-bold text-ink uppercase flex items-center gap-2">
+              <Sparkles size={14} className="text-teal" />
+              Project Purpose &amp; Enterprise Impact
+            </div>
+            <p className="font-body text-sm text-ink-soft leading-relaxed">
+              Standard enterprise LLM deployments expose corporations to severe privacy fines (up to <strong className="text-ink font-semibold">€35 Million or 7% global turnover under GDPR</strong>) and hallucination liabilities. This system solves both by deploying a sovereign EU-bounded 4-agent team (<strong className="text-ink font-semibold">Query Planner, Hybrid Retriever, Verifier, Synthesizer</strong>) that cross-examines every claim, sanitizes PII before vector indexing, and executes <strong className="text-signal font-semibold">instant cryptographic shredding (GDPR Art. 17)</strong> upon user erasure requests without expensive vector re-indexing.
+            </p>
+          </div>
+
+          {/* Technical Features & Live Interactive Pipeline Console */}
+          <div className="grid lg:grid-cols-12 gap-8 items-start">
+            {/* Left: Highlights & Step Trace (5 cols) */}
+            <div className="lg:col-span-5 space-y-4 font-body text-sm text-ink-soft">
+              <div className="font-mono text-xs font-bold text-ink uppercase tracking-wider">
+                Technical Highlights
+              </div>
+              <ul className="space-y-2.5">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 size={15} className="text-teal shrink-0 mt-0.5" />
+                  <span><strong className="text-ink">Multi-Agent Supervisor:</strong> Autonomous query decomposition, subquery routing, and NLI groundedness verification.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 size={15} className="text-teal shrink-0 mt-0.5" />
+                  <span><strong className="text-ink">GDPR Art. 17 Crypto-Shredding:</strong> Revoking document AES-256 keys mathematically destroys vector readability instantly.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 size={15} className="text-teal shrink-0 mt-0.5" />
+                  <span><strong className="text-ink">Hybrid Search (RRF):</strong> Dense semantic embeddings + BM25Okapi merged via Reciprocal Rank Fusion &amp; Cross-Encoder reranking.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 size={15} className="text-teal shrink-0 mt-0.5" />
+                  <span><strong className="text-ink">EU AI Act Art. 12 Ledger:</strong> Immutable SHA-256 hash-chained JSONL logs with automated citations <code className="text-xs bg-bg px-1 py-0.5 rounded">[Doc:Section]</code>.</span>
+                </li>
+              </ul>
+
+              {/* 3-Step Pipeline Flow */}
+              <div className="pt-2 border-t border-line/60">
+                <div className="font-mono text-[11px] font-bold text-ink uppercase mb-2">Autonomous Multi-Agent Pipeline:</div>
+                <div className="space-y-1.5 font-mono text-xs text-ink-soft">
+                  <div><strong className="text-signal">Step 1:</strong> Presidio scans &amp; pseudonymizes PII before vectorization.</div>
+                  <div><strong className="text-signal">Step 2:</strong> Planner decomposes query ➔ Hybrid search ➔ Cross-Encoder rerank.</div>
+                  <div><strong className="text-signal">Step 3:</strong> Verifier validates factual entailment (100% Faithfulness) ➔ Synthesizer adds EU citations.</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Live Interactive Multi-Agent Working Pipeline Simulator (7 cols) */}
+            <div className="lg:col-span-7 rounded-xl border border-line bg-ink p-5 space-y-4 shadow-lg select-none text-white font-sans">
+              <div className="flex items-center justify-between border-b border-white/15 pb-2.5 font-mono text-xs">
+                <span className="flex items-center gap-1.5 text-teal font-semibold">
+                  <Bot size={14} />
+                  Multi-Agent Live Pipeline Simulator
+                </span>
+                <span className="text-[11px] text-white/70">FastAPI + Qdrant + Sovereign LLM</span>
+              </div>
+
+              {/* Query Preset Selectors */}
+              <div className="space-y-1.5">
+                <div className="font-mono text-[10.5px] text-white/60 uppercase tracking-wider">Test Sample Enterprise Queries:</div>
+                <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                  <button
+                    onClick={() => handleSelectRagPreset(1)}
+                    className={`px-2.5 py-1 rounded border transition-all ${
+                      activeRagPreset === 1 && !isCryptoShredded
+                        ? "bg-teal text-white border-teal font-bold shadow-sm"
+                        : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                    }`}
+                  >
+                    72h Breach Notice
+                  </button>
+                  <button
+                    onClick={() => handleSelectRagPreset(2)}
+                    className={`px-2.5 py-1 rounded border transition-all ${
+                      activeRagPreset === 2 && !isCryptoShredded
+                        ? "bg-teal text-white border-teal font-bold shadow-sm"
+                        : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                    }`}
+                  >
+                    GDPR Art. 17 Erasure
+                  </button>
+                  <button
+                    onClick={() => handleSelectRagPreset(3)}
+                    className={`px-2.5 py-1 rounded border transition-all ${
+                      activeRagPreset === 3 && !isCryptoShredded
+                        ? "bg-teal text-white border-teal font-bold shadow-sm"
+                        : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                    }`}
+                  >
+                    DPO Contact &amp; Tax PII
+                  </button>
+                  <button
+                    onClick={() => handleSelectRagPreset(4)}
+                    className={`px-2.5 py-1 rounded border transition-all ${
+                      activeRagPreset === 4 && !isCryptoShredded
+                        ? "bg-amber text-ink border-amber font-bold shadow-sm"
+                        : "bg-white/5 text-white/80 border-white/10 hover:border-white/30"
+                    }`}
+                  >
+                    Hallucination Test
+                  </button>
+                  <button
+                    onClick={toggleCryptoShred}
+                    className={`px-2.5 py-1 rounded border font-bold transition-all flex items-center gap-1 ${
+                      isCryptoShredded
+                        ? "bg-red-600 text-white border-red-500 animate-pulse"
+                        : "bg-red-950/60 text-red-300 border-red-800/60 hover:bg-red-900/60"
+                    }`}
+                  >
+                    <Lock size={10} />
+                    {isCryptoShredded ? "Key Revoked (Click to Restore)" : "💥 Test GDPR Art. 17 Shredding"}
+                  </button>
+                </div>
+              </div>
+
+              {/* 4-Agent Live Coordination Bar */}
+              <div className="grid grid-cols-4 gap-1.5 font-mono text-[10px] text-center pt-1">
+                {[
+                  { id: 1, label: "1. PLANNER", sub: "Query Decompose" },
+                  { id: 2, label: "2. RETRIEVER", sub: "Hybrid RRF + Cross" },
+                  { id: 3, label: "3. VERIFIER", sub: "NLI Fact-Check" },
+                  { id: 4, label: "4. SYNTHESIS", sub: "EU Citations" }
+                ].map((st) => {
+                  const isActive = currentAgentStep >= st.id;
+                  const isCurrent = currentAgentStep === st.id;
+                  return (
+                    <div
+                      key={st.id}
+                      className={`p-1.5 rounded border transition-all ${
+                        isCurrent && isRagRunning
+                          ? "bg-teal/20 border-teal text-teal animate-pulse font-bold"
+                          : isActive
+                          ? "bg-white/10 border-white/20 text-white"
+                          : "bg-white/5 border-white/5 text-white/40"
+                      }`}
+                    >
+                      <div className="font-bold">{st.label}</div>
+                      <div className="text-[9px] text-white/60 truncate">{st.sub}</div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Live Terminal Output Console */}
+              <div className="aspect-[16/9] sm:aspect-[16/8] rounded-lg bg-[#0A101D] border border-white/15 p-4 relative flex flex-col justify-between overflow-hidden">
+                {/* Status bar */}
+                <div className="flex items-center justify-between font-mono text-[11px] border-b border-white/10 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        isCryptoShredded
+                          ? "bg-red-500 animate-ping"
+                          : isRagRunning
+                          ? "bg-amber animate-spin"
+                          : "bg-teal animate-pulse"
+                      }`}
+                    />
+                    <span className="text-white/80 font-semibold">
+                      {isCryptoShredded
+                        ? "BLOCKED BY CRYPTO-SHRED (GDPR Art. 17)"
+                        : isRagRunning
+                        ? "COORDINATING AGENTS..."
+                        : activeRagPreset === 4
+                        ? "SAFE FALLBACK (INSUFFICIENT CONTEXT)"
+                        : "VERIFIED GROUNDED OUTPUT (SUCCESS)"}
+                    </span>
+                  </div>
+                  <span className="text-teal font-bold">{activePreset.latency}</span>
+                </div>
+
+                {/* Main answer readout */}
+                <div className="py-2 space-y-2 overflow-y-auto max-h-32 text-xs font-body text-white/90 leading-relaxed">
+                  {isCryptoShredded ? (
+                    <div className="text-red-300 font-mono text-[11.5px] p-2 bg-red-950/40 rounded border border-red-900/60">
+                      ⚠️ <strong>GDPR Right to Erasure Enforcement:</strong> Target AES-256 key revoked in KeyVault. All document embeddings and stored vectors are cryptographically tombstoned. Zero unencrypted representations exist.
+                    </div>
+                  ) : (
+                    <>
+                      <p>{activePreset.answer}</p>
+                      <div className="font-mono text-[10.5px] text-teal flex items-center gap-1.5 pt-1">
+                        <span>Attributed Citation:</span>
+                        <span className="bg-teal/10 px-1.5 py-0.5 rounded border border-teal/30 text-teal-200">
+                          {activePreset.citation}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Live Metadata Badges */}
+                <div className="border-t border-white/10 pt-2 flex flex-wrap items-center justify-between font-mono text-[10px] text-white/60 gap-2">
+                  <span>PII: <strong className="text-teal">{activePreset.piiStatus}</strong></span>
+                  <span>Faithfulness: <strong className="text-teal">{activePreset.faithfulness}</strong></span>
+                  <span>Ledger: <strong className="text-white/80">SHA-256:{activePreset.hash}...</strong></span>
+                </div>
+              </div>
+
+              {/* Bottom Simulator Controls */}
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 font-mono text-xs">
+                <button
+                  onClick={() => handleSelectRagPreset(activeRagPreset)}
+                  disabled={isRagRunning}
+                  className="inline-flex items-center gap-1.5 rounded bg-teal px-3.5 py-1.5 font-bold text-white hover:bg-teal/90 transition-all active:scale-95 disabled:opacity-50"
+                >
+                  <RefreshCw size={12} className={isRagRunning ? "animate-spin" : ""} />
+                  {isRagRunning ? "Processing Query..." : "Re-Run Multi-Agent Pipeline"}
+                </button>
+                <span className="text-[10px] text-white/60">Sovereign Boundary · Zero Data Leakage</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Repo Architecture & Links */}
+          <div className="border-t border-line pt-5 grid sm:grid-cols-2 gap-4 font-mono text-xs">
+            <div>
+              <span className="font-bold text-ink block mb-1">Architecture &amp; Microservices:</span>
+              <div className="text-ink-soft space-y-0.5 text-[11px]">
+                <div><strong className="text-signal">/core :</strong> Security (AES-256-GCM), PII Sanitizer, SHA-256 Ledger</div>
+                <div><strong className="text-signal">/rag :</strong> Chunking, Sovereign Embeddings, Hybrid Search, Reranker</div>
+                <div><strong className="text-signal">/agents :</strong> Query Planner, Verifier (NLI Guard), Synthesizer, Supervisor</div>
+                <div><strong className="text-signal">/eval :</strong> RAGAS Quantitative Metric Evaluation Suite</div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <span className="font-bold text-ink block mb-1">Deployment &amp; Live Artifacts:</span>
+              <div className="rounded border border-line bg-bg p-2.5 text-signal select-all text-[11px]">
+                <code>git clone https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag.git &amp;&amp; docker-compose up -d</code>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <a
+                  href="https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag"
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex items-center gap-1 text-signal hover:underline font-bold text-[11px]"
+                >
+                  <Code2 size={12} />
+                  View GitHub Repo ↗
+                </a>
+                <span className="text-line-strong">·</span>
+                <a
+                  href="https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag/blob/main/docs/EU_Compliant_MultiAgent_RAG_Comprehensive_Guide.pdf"
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex items-center gap-1 text-teal hover:underline font-bold text-[11px]"
+                >
+                  <FileText size={12} />
+                  PDF Architecture Guide ↗
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Tag Row */}
+          <div className="flex flex-wrap gap-2 pt-2 border-t border-line/60">
+            {["FastAPI", "Python 3.10+", "Multi-Agent Orchestrator", "RAGAS (94.5% Faithfulness)", "BM25 + Dense Vectors", "AES-256-GCM Crypto-Shredding", "Presidio PII Redaction", "Docker Compose"].map((t) => (
+              <span key={t} className="rounded bg-teal/10 border border-teal/30 px-2.5 py-1 font-mono text-[11px] text-teal font-medium">
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* SPOTLIGHT 2: Master's Thesis Computer Vision Project Spotlight Card */}
+        {/* ========================================================================= */}
         <div className="rounded-xl border border-line-strong bg-surface p-7 sm:p-10 shadow-blueprint-lg relative overflow-hidden space-y-8">
           {/* Top Line Gradient */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-signal via-teal to-amber" />
@@ -117,7 +491,7 @@ export function ProjectsSection() {
                 <div className="space-y-1.5 font-mono text-xs text-ink-soft">
                   <div><strong className="text-signal">Step 1:</strong> Child points camera at surrounding object.</div>
                   <div><strong className="text-signal">Step 2:</strong> AI detects object from trained neural library.</div>
-                  <div><strong className="text-signal">Step 3:</strong> Game &quot;captures&quot; object & displays name in large font.</div>
+                  <div><strong className="text-signal">Step 3:</strong> Game &quot;captures&quot; object &amp; displays name in large font.</div>
                 </div>
               </div>
             </div>
@@ -153,12 +527,12 @@ export function ProjectsSection() {
 
               <div className="flex items-center justify-between pt-1">
                 <button
-                  onClick={handleSimulate}
-                  disabled={isSimulating}
+                  onClick={handleSimulateCv}
+                  disabled={isCvSimulating}
                   className="inline-flex items-center gap-1.5 rounded bg-teal px-3.5 py-1.5 font-mono text-xs font-bold text-white hover:bg-teal/90 transition-all active:scale-95 disabled:opacity-50"
                 >
-                  <RefreshCw size={12} className={isSimulating ? "animate-spin" : ""} />
-                  {isSimulating ? "Detecting..." : "Simulate Detection"}
+                  <RefreshCw size={12} className={isCvSimulating ? "animate-spin" : ""} />
+                  {isCvSimulating ? "Detecting..." : "Simulate Detection"}
                 </button>
                 <span className="font-mono text-[10px] text-white/60">Real-Time CPU Inference</span>
               </div>
@@ -170,14 +544,14 @@ export function ProjectsSection() {
             <div>
               <span className="font-bold text-ink block mb-1">Architecture:</span>
               <div className="text-ink-soft space-y-0.5 text-[11px]">
-                <div><strong className="text-signal">/Object-Detector :</strong> Core CV logic & inference pipeline</div>
+                <div><strong className="text-signal">/Object-Detector :</strong> Core CV logic &amp; inference pipeline</div>
                 <div><strong className="text-signal">/frontend :</strong> Accessible desktop UI in PyQt6</div>
-                <div><strong className="text-signal">/models :</strong> Trained YOLOv8 weights & OpenVINO IR files</div>
+                <div><strong className="text-signal">/models :</strong> Trained YOLOv8 weights &amp; OpenVINO IR files</div>
               </div>
             </div>
 
             <div>
-              <span className="font-bold text-ink block mb-1">Requirements & Command:</span>
+              <span className="font-bold text-ink block mb-1">Requirements &amp; Command:</span>
               <div className="rounded border border-line bg-bg p-2.5 text-signal select-all text-[11px]">
                 <code>pip install opencv-python ultralytics openvino pyqt6</code>
               </div>
@@ -194,51 +568,10 @@ export function ProjectsSection() {
           </div>
         </div>
 
-        {/* Additional Project Cards Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {/* Project 1: Enterprise EU-Compliant Multi-Agent RAG */}
-          <article className="rounded-xl border border-line bg-surface p-7 shadow-blueprint relative overflow-hidden transition-all duration-300 hover:border-signal hover:-translate-y-1 hover:shadow-blueprint-lg flex flex-col justify-between space-y-5">
-            <div className="space-y-4">
-              <div className="flex justify-between items-start">
-                <span className="font-mono text-xs font-semibold text-teal uppercase tracking-wider flex items-center gap-1.5">
-                  <ShieldCheck size={14} />
-                  Sovereign Multi-Agent AI
-                </span>
-                <span className="font-mono text-xs font-bold text-teal bg-teal/10 px-2 py-0.5 rounded border border-teal/30">94.5% RAGAS</span>
-              </div>
-
-              <div>
-                <h3 className="font-display font-bold text-xl text-ink">
-                  Enterprise EU-Compliant Multi-Agent RAG System
-                </h3>
-                <p className="mt-2.5 font-body text-sm text-ink-soft leading-relaxed">
-                  Autonomous 4-agent RAG engine (Planner, Hybrid Retriever, Verifier, Synthesizer) featuring Presidio PII pseudonymization, AES-256-GCM GDPR Article 17 cryptographic shredding, and EU AI Act Article 12 immutable audit logs.
-                </p>
-              </div>
-
-              <div className="pt-1">
-                <a
-                  href="https://github.com/Nehal-qadeer/eu-compliant-multiagent-rag"
-                  target="_blank"
-                  rel="noopener"
-                  className="inline-flex items-center gap-1.5 font-mono text-xs text-signal hover:underline font-semibold"
-                >
-                  <Code2 size={13} />
-                  EU Multi-Agent RAG Repo
-                  <ExternalLink size={11} />
-                </a>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-1.5 pt-3 border-t border-line">
-              {["FastAPI", "Multi-Agent", "RAGAS", "BM25+Vector", "Qdrant", "Crypto-Shred", "Docker"].map((tag) => (
-                <span key={tag} className="rounded bg-signal-dim px-2 py-0.5 font-mono text-[10.5px] text-signal">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </article>
-
+        {/* ========================================================================= */}
+        {/* Additional Project Cards Grid: Scraping Engine & Satellite Tracker */}
+        {/* ========================================================================= */}
+        <div className="grid md:grid-cols-2 gap-6">
           {/* Project 2: Scraping & Ingestion */}
           <article className="rounded-xl border border-line bg-surface p-7 shadow-blueprint relative overflow-hidden transition-all duration-300 hover:border-signal hover:-translate-y-1 hover:shadow-blueprint-lg flex flex-col justify-between space-y-5">
             <div className="space-y-4">
@@ -251,7 +584,7 @@ export function ProjectsSection() {
 
               <div>
                 <h3 className="font-display font-bold text-xl text-ink">
-                  Multi-Platform Scraping & Ingestion Engine
+                  Multi-Platform Scraping &amp; Ingestion Engine
                 </h3>
                 <p className="mt-2.5 font-body text-sm text-ink-soft leading-relaxed">
                   Python and Selenium scrapers deployed as cloud Apify Actors with dynamic pagination and anti-bot bypass. Automated Make.com JSON validation transforms messy payloads before direct ingestion into PostgreSQL relational databases.
@@ -297,14 +630,14 @@ export function ProjectsSection() {
             <div className="space-y-4">
               <div className="flex justify-between items-start">
                 <span className="font-mono text-xs font-semibold text-signal uppercase tracking-wider">
-                  Full-Stack Caching & Automation
+                  Full-Stack Caching &amp; Automation
                 </span>
                 <span className="font-mono text-xs text-ink-soft">2026</span>
               </div>
 
               <div>
                 <h3 className="font-display font-bold text-xl text-ink">
-                  Application Tracker & Satellite Tracking System
+                  Application Tracker &amp; Satellite Tracking System
                 </h3>
                 <p className="mt-2.5 font-body text-sm text-ink-soft leading-relaxed">
                   Dual systems: A 4-step Zapier automation with OAuth webhooks (Forms ➔ Sheets ➔ Calendar ➔ Gmail) combined with a full-stack real-time Satellite Tracker built in Node.js, React, and Redis as the shared distributed state and caching layer.
